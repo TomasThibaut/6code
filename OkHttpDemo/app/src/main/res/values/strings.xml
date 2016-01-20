@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">OkHttpDemo</string>
+
+    <string name="normal">普通青年用法</string>
+    <string name="normal_">文艺青年用法</string>
+    <string name="action_settings">Settings</string>
+    <string name="SPKey">okhttp_demo</string>
+</resources>
