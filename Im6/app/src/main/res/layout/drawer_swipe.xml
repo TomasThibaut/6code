@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/drawer_swipe"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@mipmap/game_type_background">
+
+    <LinearLayout
+        android:id="@+id/ll_gameType"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gameType_listHeight"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hotGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/glist"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_swipe_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/ll_gameType"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/gameType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/gtlist"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_swipe_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>

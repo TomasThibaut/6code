@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Im6</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="SPKey">SPUtil</string>
+    <string name="net_timeout">网络不太给力</string>
+    <string name="glist">热门游戏</string>
+    <string name="gtlist">游戏分类</string>
+    <string name="text_word">测试文字</string>
+    <string name="hotGame_liveCount">个直播</string>
+    <string name="allLive">全部直播</string>
+</resources>
