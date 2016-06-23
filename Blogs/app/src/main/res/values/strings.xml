@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Blogs</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_choose_msg_aty">ChooseMsgAty</string>
+    <string name="send">发送</string>
+    <string name="toast">toast测试</string>
+</resources>

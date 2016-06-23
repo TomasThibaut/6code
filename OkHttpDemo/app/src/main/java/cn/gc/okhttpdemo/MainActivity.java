@@ -2,28 +2,41 @@ package cn.gc.okhttpdemo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.gc.okhttpdemo.entity.GameTypeEntity;
 import cn.gc.okhttpdemo.util.LogUtil;
 import cn.gc.okhttpdemo.util.Toaster;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+
 
 public class MainActivity extends Activity {
 
     private Context mContext;
+
+    @Bind(R.id.iv_main)
+    ImageView iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,43 +46,73 @@ public class MainActivity extends Activity {
         //注册Toast工具类
         Toaster.register(this);
         mContext = this;
-
+        mHandler = new MyHandler();
     }
 
     //直接使用
     @OnClick(R.id.btn_normal)
     void onNormalUse() {
-        /**构建okHttp客户端 , 用来完成请求Server操作*/
         OkHttpClient mClient = new OkHttpClient();
-        /**构建请求对象*/
+        FormEncodingBuilder builder = new FormEncodingBuilder();
         Request request = new Request.Builder()
-//                    .addHeader(headName,headBody);//添加请求头
-                    .url("http://dev.huanpeng.com/a/getGTList.php")
+                    .url("http://ww3.sinaimg.cn/large/610dc034jw1f070hyadzkj20p90gwq6v.jpg")
                     .build();
 
         Call call = mClient.newCall(request);
         //异步请求用这个
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(Request request, IOException e) {
                 processError(e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                processData(response);
+            public void onResponse(Response response) throws IOException {
+                try {
+                    InputStream is = response.body().byteStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                    mHandler.sendEmptyMessage(1);
+                    processData(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
 
-    private void processData(Response response) throws IOException {
-        LogUtil.i(mContext, response.body().string());
-        GameTypeEntity data = new Gson().fromJson(response.body().string(), GameTypeEntity.class);
+    Bitmap bitmap;
+
+
+    private MyHandler mHandler;
+
+    class MyHandler extends android.os.Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(mContext, "aaa", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    if (bitmap != null)
+                        iv.setImageBitmap(bitmap);
+                    break;
+            }
+        }
+    }
+
+    private void processData(Response response) throws IOException, JSONException {
+        mHandler.sendEmptyMessage(0);
+        String jsonString = response.body().string();
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String uid = jsonObject.getString("uid");//用户ID
+        String encpass = jsonObject.getString("encpass");//有效加密验证串
     }
 
     private void processError(IOException e) {
         LogUtil.i(mContext, "报错" + e);
+        Toast.makeText(mContext, "" + e, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.btn_normal_)

@@ -15,9 +15,14 @@
         android:text="@string/normal"/>
 
     <Button
-        android:layout_below="@+id/btn_normal"
         android:id="@+id/btn_normal_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_normal"
         android:text="@string/normal_"/>
+
+    <ImageView
+        android:id="@+id/iv_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>
